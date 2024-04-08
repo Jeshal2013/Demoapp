@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SampleDemoWithoutIdentity.Areas.Product.Models;
 
 namespace SampleDemoWithoutIdentity.Areas.Product.Controllers
 {
+    [Area("product")]
     public class ProductController : Controller
     {
+
         // GET: HomeController
         public ActionResult Index()
         {
