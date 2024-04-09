@@ -6,6 +6,7 @@ using SampleDemoWithoutIdentity.Areas.Product.Models;
 namespace SampleDemoWithoutIdentity.Areas.Product.Controllers
 {
     [Area("product")]
+    [AllowAnonymous]
     public class ProductController : Controller
     {
 

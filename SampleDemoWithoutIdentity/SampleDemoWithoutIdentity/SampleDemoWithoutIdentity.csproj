@@ -21,4 +21,8 @@
     <Folder Include="Areas\Product\Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

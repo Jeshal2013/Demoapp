@@ -131,6 +131,7 @@ namespace SampleDemoWithoutIdentity.Areas.Identity.Pages.Account
                 user.firstName = Input.firstName;
                 user.lastName = Input.lastName;
                 user.EmailConfirmed = true;
+                user.Adddress = "testeing";
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

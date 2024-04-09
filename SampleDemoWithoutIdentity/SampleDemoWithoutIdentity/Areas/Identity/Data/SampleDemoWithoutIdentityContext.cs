@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SampleDemoWithoutIdentity.Models;
+using DataAccess.Models;
 
 namespace SampleDemoWithoutIdentity.Data;
 
@@ -19,4 +20,7 @@ public class SampleDemoWithoutIdentityContext : IdentityDbContext<ApplicationUse
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+public DbSet<DataAccess.Models.Employee> Employee { get; set; } = default!;
+
 }

@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SampleDemoWithoutIdentity.Data;
 using SampleDemoWithoutIdentity.Models;
+using System.Security.Policy;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("SampleDemoWithoutIdentityContextConnection") ?? throw new InvalidOperationException("Connection string 'SampleDemoWithoutIdentityContextConnection' not found.");
 
@@ -9,6 +11,7 @@ builder.Services.AddDbContext<SampleDemoWithoutIdentityContext>(options => optio
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<SampleDemoWithoutIdentityContext>();
 
+//builder.Services.AddScoped<DataAccess.Repository.EmployeeService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -28,15 +31,17 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.MapControllerRoute(
     name: "MyAreas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
 );
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
+
 
 app.MapRazorPages();
 app.Run();
