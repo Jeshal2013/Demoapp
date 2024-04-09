@@ -15,7 +15,12 @@ namespace DataAccess.Repository
     {
 
         public string ConnectionString { get; set; } = string.Empty;
-        public List<Employee> GetEmployees()
+        public EmployeeService(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
+
+            public List<Employee> GetEmployees()
         {
             var employeeLists = new List<Employee>();
             using (SqlConnection conn = new SqlConnection(ConnectionString))

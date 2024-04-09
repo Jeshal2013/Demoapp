@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Models;
 using SampleDemoWithoutIdentity.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using DataAccess.Services;
 
 namespace SampleDemoWithoutIdentity.Areas.Product.Controllers
 {
@@ -14,17 +16,21 @@ namespace SampleDemoWithoutIdentity.Areas.Product.Controllers
     public class EmployeesController : Controller
     {
         IConfiguration configuration;
-        public EmployeesController(IConfiguration configuration)
+        IEmployeeInterface employeeService;
+        public EmployeesController(IConfiguration configuration, IEmployeeInterface employeeInterface)
+        
         {
             configuration = configuration;
+            employeeService = employeeInterface;
         }
 
         // GET: Product/Employees
         public async Task<IActionResult> Index()
+        
         {
-            DataAccess.Repository.EmployeeService employeeService = new DataAccess.Repository.EmployeeService();
-            var connectionString = configuration.GetConnectionString("SampleDemoWithoutIdentityContextConnection");
-            employeeService.ConnectionString = "";
+            //DataAccess.Repository.EmployeeService employeeService = new DataAccess.Repository.EmployeeService();
+            //var connectionString = configuration.GetConnectionString("SampleDemoWithoutIdentityContextConnection");
+            //employeeService.ConnectionString = "";
             var employees = employeeService.GetEmployees();
             return View(employees);
         }
@@ -44,9 +50,9 @@ namespace SampleDemoWithoutIdentity.Areas.Product.Controllers
         {
             if (ModelState.IsValid)
             {
-                DataAccess.Repository.EmployeeService employeeService = new DataAccess.Repository.EmployeeService();
-                var connectionString = configuration.GetConnectionString("SampleDemoWithoutIdentityContextConnection");
-                employeeService.ConnectionString = connectionString;
+                //DataAccess.Repository.EmployeeService employeeService = new DataAccess.Repository.EmployeeService();
+                //var connectionString = configuration.GetConnectionString("SampleDemoWithoutIdentityContextConnection");
+                //employeeService.ConnectionString = connectionString;
                 var returnValue= employeeService.InsertEmployee(employee);
                 return RedirectToAction(nameof(Index));
             }

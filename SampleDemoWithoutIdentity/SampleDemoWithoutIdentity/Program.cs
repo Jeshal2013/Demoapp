@@ -1,6 +1,9 @@
+using DataAccess.Repository;
+using DataAccess.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SampleDemoWithoutIdentity.Data;
 using SampleDemoWithoutIdentity.Models;
 using System.Security.Policy;
@@ -14,6 +17,25 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 //builder.Services.AddScoped<DataAccess.Repository.EmployeeService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+
+//builder.Services.AddScoped<IEmployeeInterface>(serviceProvider =>
+//{
+//    return new EmployeeService(connectionString); // Pass the dependency to the constructor
+//});
+
+
+//builder.Services.AddTransient<IEmployeeInterface>(serviceProvider =>
+//{
+//    return new EmployeeService(connectionString); // Pass the dependency to the constructor
+//});
+
+
+builder.Services.AddSingleton<IEmployeeInterface>(serviceProvider =>
+{
+    return new EmployeeService(connectionString); // Pass the dependency to the constructor
+});
 
 var app = builder.Build();
 
