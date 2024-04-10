@@ -13,24 +13,18 @@ var connectionString = builder.Configuration.GetConnectionString("SampleDemoWith
 builder.Services.AddDbContext<SampleDemoWithoutIdentityContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<SampleDemoWithoutIdentityContext>();
-
-//builder.Services.AddScoped<DataAccess.Repository.EmployeeService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-
 
 //builder.Services.AddScoped<IEmployeeInterface>(serviceProvider =>
 //{
 //    return new EmployeeService(connectionString); // Pass the dependency to the constructor
 //});
 
-
 //builder.Services.AddTransient<IEmployeeInterface>(serviceProvider =>
 //{
 //    return new EmployeeService(connectionString); // Pass the dependency to the constructor
 //});
-
 
 builder.Services.AddSingleton<IEmployeeInterface>(serviceProvider =>
 {

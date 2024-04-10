@@ -13,6 +13,7 @@ using DataAccess.Services;
 namespace SampleDemoWithoutIdentity.Areas.Product.Controllers
 {
     [Area("Product")]
+    
     public class EmployeesController : Controller
     {
         IConfiguration configuration;
