@@ -9,6 +9,7 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using Azure;
 using System.Reflection;
+using DataAccess.ViewModel;
 namespace DataAccess.Repository
 {
     public class EmployeeService : IEmployeeInterface
@@ -20,15 +21,21 @@ namespace DataAccess.Repository
             ConnectionString = connectionString;
         }
 
-            public List<Employee> GetEmployees()
+        public EmployeeViewModel GetEmployees(string search = "", int page = 1, int pageSize = 20, string sortByColumn = "", string orderBy = "asc")
         {
+            var objEmployeeViewModel = new EmployeeViewModel();
             var employeeLists = new List<Employee>();
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand();
-                sqlCommand.CommandText = "select * From Employee";
-                sqlCommand.CommandType = CommandType.Text;
+                sqlCommand.CommandText = "GetEmployees";
+                sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Connection = conn;
+                sqlCommand.Parameters.AddWithValue("@search", SqlDbType.NVarChar).Value = search;
+                sqlCommand.Parameters.AddWithValue("@page", SqlDbType.NVarChar).Value = page;
+                sqlCommand.Parameters.AddWithValue("@pageSize", SqlDbType.NVarChar).Value = pageSize;
+                sqlCommand.Parameters.AddWithValue("@sortByColumn", SqlDbType.NVarChar).Value = sortByColumn;
+                sqlCommand.Parameters.AddWithValue("@orderBy", SqlDbType.NVarChar).Value = orderBy;
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
@@ -50,13 +57,15 @@ namespace DataAccess.Repository
                             City = reader["City"].ToString(),
                             PhoneNumber = reader["PhoneNumber"].ToString(),
                             Email = reader["Email"].ToString()
+                            
                         }
                     );
+                    objEmployeeViewModel.TotalRecord = Convert.ToInt32(reader["TotalRecords"]);
                 }
                 conn.Close();
             }
-
-            return employeeLists;
+            objEmployeeViewModel.employees = employeeLists;
+            return objEmployeeViewModel;
         }
 
         public int InsertEmployee(Employee model)
@@ -90,5 +99,7 @@ namespace DataAccess.Repository
             return returnvalue;
 
         }
+
+      
     }
 }

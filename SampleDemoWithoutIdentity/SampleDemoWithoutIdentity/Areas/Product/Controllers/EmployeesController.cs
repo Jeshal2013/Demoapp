@@ -9,6 +9,7 @@ using DataAccess.Models;
 using SampleDemoWithoutIdentity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using DataAccess.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SampleDemoWithoutIdentity.Areas.Product.Controllers
 {
@@ -26,14 +27,19 @@ namespace SampleDemoWithoutIdentity.Areas.Product.Controllers
         }
 
         // GET: Product/Employees
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search="",int page=1,string sortby="Name",string orderBy="asc")
         
         {
             //DataAccess.Repository.EmployeeService employeeService = new DataAccess.Repository.EmployeeService();
             //var connectionString = configuration.GetConnectionString("SampleDemoWithoutIdentityContextConnection");
             //employeeService.ConnectionString = "";
-            var employees = employeeService.GetEmployees();
-            return View(employees);
+            var employeeViewModel = employeeService.GetEmployees(search,page,sortByColumn:sortby,orderBy:orderBy);
+            employeeViewModel.search = search;
+            employeeViewModel.page = page;
+            employeeViewModel.pageSize = 20;
+            employeeViewModel.sortBy = sortby;
+            employeeViewModel.orderBy=(orderBy=="asc"?"desc":"asc");
+            return View(employeeViewModel);
         }
 
        

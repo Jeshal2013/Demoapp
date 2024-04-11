@@ -133,7 +133,7 @@ namespace SampleDemoWithoutIdentity.Areas.Identity.Pages.Account
                 user.EmailConfirmed = true;
                 user.Adddress = "testeing";
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
+                await _userManager.AddToRoleAsync(user, "Employee");
                 if (result.Succeeded)
                 {
                     return RedirectToPage("Login");
@@ -150,7 +150,7 @@ namespace SampleDemoWithoutIdentity.Areas.Identity.Pages.Account
 
                     //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                     //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                
+
                     //if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     //{
                     //    return RedirectToPage("Login");

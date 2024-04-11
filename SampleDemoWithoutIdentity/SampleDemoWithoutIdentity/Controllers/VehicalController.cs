@@ -1,23 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SampleDemoWithoutIdentity.Controllers
 {
+
+    [Authorize]
     public class VehicalController : Controller
     {
         // GET: VehicalController
+        [Authorize(Roles ="Admin,Employee")]
         public ActionResult Index()
         {
             return View();
         }
 
         // GET: VehicalController/Details/5
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: VehicalController/Create
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Create()
         {
             return View();
@@ -26,6 +32,7 @@ namespace SampleDemoWithoutIdentity.Controllers
         // POST: VehicalController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employee")]
         public ActionResult Create(IFormCollection collection)
         {
             try
@@ -39,6 +46,7 @@ namespace SampleDemoWithoutIdentity.Controllers
         }
 
         // GET: VehicalController/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             return View();
