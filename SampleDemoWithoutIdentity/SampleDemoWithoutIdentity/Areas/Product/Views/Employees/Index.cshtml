@@ -13,16 +13,17 @@
     <thead>
         <tr>
             <th>
-                Name
+                <a class="navbar-brand" href="@Url.Action("Index", "Employees" , new { area="product",@page=Model.page,@search=Model.search,@sortby="Name",@orderBy=Model.orderBy })">Name</a>
             </th>
             <th>
-                Email
+                <a class="navbar-brand" href="@Url.Action("Index", "Employees" , new { area="product",@page=Model.page,@search=Model.search,@sortby="Email",@orderBy=Model.orderBy })">Email</a>
             </th>
             <th>
-                PhoneNumber
+                <a class="navbar-brand" href="@Url.Action("Index", "Employees" , new { area="product",@page=Model.page,@search=Model.search,@sortby="PhoneNumber",@orderBy=Model.orderBy })">Number</a>
+                
             </th>
             <th>
-                City
+                <a class="navbar-brand" href="@Url.Action("Index", "Employees" , new { area="product",@page=Model.page,@search=Model.search,@sortby="City",@orderBy=Model.orderBy })">City</a>
             </th>
             <th></th>
         </tr>
