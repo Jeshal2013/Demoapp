@@ -7,3 +7,5 @@
 /SampleDemoWithoutIdentity/SampleDemoWithoutIdentity/bin/Debug/net8.0
 /SampleDemoWithoutIdentity/SampleDemoWithoutIdentity/obj
 *.json
+/SampleDemoWithoutIdentity/DemoApi/bin/Debug/net8.0
+/SampleDemoWithoutIdentity/DemoApi/obj
