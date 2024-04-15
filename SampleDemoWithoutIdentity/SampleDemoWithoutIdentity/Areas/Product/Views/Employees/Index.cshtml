@@ -2,12 +2,21 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    // var objListoption = new List<SelectListItem>();
+
+    // objListoption.Add(new SelectListItem { Value = "20", Text = "20" });
+    // objListoption.Add(new SelectListItem { Value = "50", Text = "50" });
+    // objListoption.Add(new SelectListItem { Value = "100", Text = "100" });
+    // objListoption.Add(new SelectListItem { Value = "200", Text = "200" });
 }
 
 <h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
+
+    @Html.DropDownListFor(m => m.pageSize, new SelectList(Model.PageLists, "optionValue", "optionText"), "select page Size", new { @class = "form-control"})
 </p>
 <table class="table">
     <thead>
@@ -44,21 +53,72 @@
                 @Html.DisplayFor(modelItem => item.City)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <i class="bi bi-pencil-square"></i>
+                    </a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <i class="bi bi-eye"></i>
+                    </a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+@{
+    int totalPages = (int)Math.Ceiling((double)Model.TotalRecord / Model.pageSize);
+    var  htmlBuilder = new System.Text.StringBuilder();
+    htmlBuilder.Append("<nav>");
+    htmlBuilder.Append("<ul class=\"pagination\">");
 
+    // Previous Button
+    htmlBuilder.Append("<li class=\"page-item ");
+    if (Model.page == 1)
+        htmlBuilder.Append("disabled");
+    htmlBuilder.Append("\">");
+    htmlBuilder.Append("<a class=\"page-link\" href=\"");
+    if (Model.page > 1)
+        htmlBuilder.Append($"?page={Model.page - 1}&search={Model.search}&orderby={Model.orderBy}&sortby={Model.sortBy}");
+    htmlBuilder.Append("\" aria-label=\"Previous\">");
+    htmlBuilder.Append("<span aria-hidden=\"true\">&laquo;</span>");
+    htmlBuilder.Append("<span class=\"sr-only\">Previous</span>");
+    htmlBuilder.Append("</a>");
+    htmlBuilder.Append("</li>");
+
+    // Page Numbers
+    for (int i = 1; i <= totalPages; i++)
+    {
+        htmlBuilder.Append("<li class=\"page-item ");
+        if (i == Model.page)
+            htmlBuilder.Append("active");
+        htmlBuilder.Append("\">");
+        htmlBuilder.Append($"<a class=\"page-link\" href=\"?page={i}&search={Model.search}&orderby={Model.orderBy}&sortby={Model.sortBy}\">{i}</a>");
+        htmlBuilder.Append("</li>");
+    }
+
+    // Next Button
+    htmlBuilder.Append("<li class=\"page-item ");
+    if (Model.page == totalPages || totalPages == 0)
+        htmlBuilder.Append("disabled");
+    htmlBuilder.Append("\">");
+    htmlBuilder.Append("<a class=\"page-link\" href=\"");
+    if (Model.page < totalPages)
+        htmlBuilder.Append($"?page={Model.page + 1}&search={Model.search}&orderby={Model.orderBy}&sortby={Model.sortBy}");
+    htmlBuilder.Append("\" aria-label=\"Next\">");
+    htmlBuilder.Append("<span aria-hidden=\"true\">&raquo;</span>");
+    htmlBuilder.Append("<span class=\"sr-only\">Next</span>");
+    htmlBuilder.Append("</a>");
+    htmlBuilder.Append("</li>");
+
+    htmlBuilder.Append("</ul>");
+    htmlBuilder.Append("</nav>");
+
+}
+@Html.Raw(htmlBuilder.ToString())
 <table cellpadding="0" cellspacing="0" >
     <tr>
-        @{
-            var TotalPages =Math.Ceiling((double)(Model.TotalRecord / Model.pageSize));
-        }
-        @for (int i = 1; i <= TotalPages; i++)
+    
+        @for (int i = 1; i <= totalPages; i++)
         {
             <td>
                 @if (i != Model.page)

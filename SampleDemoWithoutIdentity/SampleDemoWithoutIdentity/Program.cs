@@ -32,6 +32,15 @@ builder.Services.AddSingleton<IEmployeeInterface>(serviceProvider =>
     return new EmployeeService(connectionString); // Pass the dependency to the constructor
 });
 
+builder.Services.AddMemoryCache(options =>
+{
+    // Set cache size limit (in bytes)
+    options.SizeLimit = 1024 * 1024 * 100; // 100 MB
+    // Set cache expiration scan frequency
+    options.ExpirationScanFrequency = TimeSpan.FromMinutes(1); // 5 minutes
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
